@@ -2,6 +2,7 @@
 command-line GOTHIC Mod Launcher for Linux
 
 HOW TO USE IT
+
 Save the script to main GOTHIC directory, make it executable (chmod +x). Read the source, make changes if necessary.
 
 WHAT THIS SCRIPT DOES
