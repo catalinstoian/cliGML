@@ -16,6 +16,8 @@ cliGML will call **7z** for archiving/decompressing the savegames.
 
 **PROBLEMS**
 
+If "vdf=" is uppercase or mixed, the script will fail.
+
 If any mod .ini file has the extension .INI, it will not be displayed.
 
 If it will not find the directories /Data, /Data/ModVDF, /Saves, /system, the script will probably fail.
@@ -23,6 +25,8 @@ If it will not find the directories /Data, /Data/ModVDF, /Saves, /system, the sc
 If 7z is not present, it will fail to archive the savegames. All savegames will be lost when launching  and saving from a different mod.
 
 **WHAT I NEED**
+
+To find a solution for the script will fail when "vdf=" is uppercase or mixed.
 
 To understand how GothicStarter.exe or GothicMod.exe works with mod savefiles.
 
