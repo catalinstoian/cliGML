@@ -18,7 +18,7 @@ cliGML will call **7z** for archiving/decompressing the savegames.
 
 If "vdf=" is uppercase or mixed, the script will fail.
 
-cliGML will fail to load the mod if in the mod .ini file the entries **game=** and **outputunits=** are pointing to other files than **content\gothic** and **content\cutscene\ou**. Unfortunatelly, this is the case with most/all stand-alone mods. cliGML cam still open expansion mods.
+cliGML will fail to load the mod if in the mod .ini file the entries **game=** and **outputunits=** are pointing to other files than **content\gothic** and **content\cutscene\ou**, also when the settings **world=** and **player=** are different from the default. Unfortunatelly, this is the case with most/all stand-alone mods. cliGML cam still open expansion mods.
 
 If any mod .ini file has the extension .INI, it will not be displayed.
 
