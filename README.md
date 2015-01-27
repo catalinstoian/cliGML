@@ -12,7 +12,7 @@ cliGML will search for all .ini files in /system and will display the output (a 
 
 For Gothic mods - **Gothic**, **Gothic Player Kit**, at least one installed **mod**, and **WINE**.
 
-For Gothic 2 mods - **Gothic 2 Gold**, maybe **Gothic II MDK**, at least one installed **mod**, and **WINE**.
+For Gothic 2 mods - **Gothic 2 Gold**, **gothic2_fix-2.6.0.0-rev2.exe**, maybe **Gothic II MDK** (ohne Rohdaten), at least one installed **mod**, and **WINE**.
 
 Optional, cliGML will call **7z** for archiving the savegames to main directory. If 7z is not present, it will do nothing.
 
