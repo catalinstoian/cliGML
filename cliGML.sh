@@ -1,5 +1,5 @@
 #!/bin/bash
-# cliGML - command-line Gothic Mod Launcher for Linux
+# cliGML - command-line Gothic and Gothic 2 Mod Launcher for Linux
 # (c) Catalin Stoian , catalin dot stoian at email dot cz
 # https://github.com/catalinstoian/cliGML
 # cliGML is released under LICENCE PUBLIQUE RIEN À BRANLER, Version 1
@@ -28,7 +28,7 @@ f-title ()
  | |\/| | (_) | |) | | |__ / _ \ |_| |    | (__| __ | _||   /                   
  |_|  |_|\___/|___/  |____/_/ \_\___/|_|\_|\___|_||_|___|_|_\                   
                                                                                 
- CLI ${cyan}Gothic Mod Launcher${NC} v.0.02                                                 
+ CLI ${cyan}Gothic${NC} and ${cyan}Gothic 2 Gold${NC} Mod Launcher v.0.03                               
                                                                                 
  Press ${cyan}RETURN${NC} to view a list of installed mods.                                 
                                                                                 
@@ -48,18 +48,33 @@ read inifile ; clear ;
 ###echo -e " Loading `grep "title=" $CWD/system/$inifile | sed 's/title=//g'` " 
 ###echo " `grep "description=" $CWD/system/$inifile | sed 's/description=//g' | fmt -w 80` " ; sleep 7 ; clear;
 # copy all .mod files listed in selected .ini to /Data and change the extension to .vdf
+### TODO - find an elegant solution for when "vdf=" is uppercase or mixed
 for f in `grep "vdf=" $CWD/system/$inifile | sed 's/vdf=//g' | sed 's/\r//'` ; do cp $CWD/Data/ModVDF/"$f" $CWD/Data/"${f/%mod/vdf}" ; done ;
-### TODO - find a solution for not working when "vdf=" is uppercase or mixed
+for f in `grep "VDF=" $CWD/system/$inifile | sed 's/VDF=//g' | sed 's/\r//'` ; do cp $CWD/Data/ModVDF/"$f" $CWD/Data/"${f/%mod/vdf}" ; done ;
+for f in `grep "Vdf=" $CWD/system/$inifile | sed 's/Vdf=//g' | sed 's/\r//'` ; do cp $CWD/Data/ModVDF/"$f" $CWD/Data/"${f/%mod/vdf}" ; done ;
 # create a saves_[mod] directory a la GothicStarter (the second sed will make all characters from title lowercase)
 for saves in `echo $inifile | sed 's/.ini//g' | sed "s/[aA]/a/g;s/[bB]/b/g;s/[cC]/c/g;s/[dD]/d/g;s/[eE]/e/g;s/[fF]/f/g;s/[gG]/g/g;s/[hH]/h/g;s/[iI]/i/g;s/j/[jJ]/g;s/[kK]/k/g;s/[lL]/l/g;s/[mM]/m/g;s/[nN]/n/g;s/[oO]/o/g;s/[pP]/p/g;s/[qQ]/q/g;s/[rR]/r/g;s/[sS]/s/g;s/[tT]/t/g;s/[uU]/u/g;s/[vV]/v/g;s/[wW]/w/g;s/[xX]/x/g;s/[yY]/y/g;s/[zZ]/z/g"` ; do mkdir $CWD/saves_$saves ; done
 # start the mod
-for inipath in `echo $inifile | sed 's/\//\\\\/g'`; do wine $CWD/system/GothicMod.exe -game:$inipath ; done
+if [ -f $CWD/system/GothicMod.exe ]
+then
+	for inipath in `echo $inifile | sed 's/\//\\\\/g'`; do wine $CWD/system/GothicMod.exe -game:$inipath ; done
+else
+	for inipath in `echo $inifile | sed 's/\//\\\\/g'`; do wine $CWD/system/Gothic2.exe -game:$inipath ; done
+fi
 # in case one doesn't has WINE installed system wide, or uses a separate WINEPREFIX for Gothic, etc., ; also edit and uncomment needed variable on top of this file
-#for inipath in `echo $inifile | sed 's/\//\\\\/g'`; do env WINEPREFIX="$WINEPREFIX" $S3TC WINEDLLOVERRIDES=$DLLDM $WINEBIN $CWD/system/GothicMod.exe -game:$inipath ; done
+#if [ -f $CWD/system/GothicMod.exe ]
+#then
+#	for inipath in `echo $inifile | sed 's/\//\\\\/g'`; do env WINEPREFIX="$WINEPREFIX" $S3TC WINEDLLOVERRIDES=$DLLDM $WINEBIN $CWD/system/GothicMod.exe -game:$inipath ; done
+#else
+#	for inipath in `echo $inifile | sed 's/\//\\\\/g'`; do env WINEPREFIX="$WINEPREFIX" $S3TC WINEDLLOVERRIDES=$DLLDM $WINEBIN $CWD/system/Gothic2.exe -game:$inipath ; done
+#fi
+# for inipath in `echo $inifile | sed 's/\//\\\\/g'`; do env WINEPREFIX="$WINEPREFIX" $S3TC WINEDLLOVERRIDES=$DLLDM $WINEBIN $CWD/system/GothicMod.exe -game:$inipath ; done
 # and last, remove all mod .vdf files from /Data
 for f in `grep "vdf=" $CWD/system/$inifile | sed 's/vdf=//g' | sed 's/\r//'`; do rm $CWD/Data/${f/%mod/vdf} ; clear ; done
+for f in `grep "VDF=" $CWD/system/$inifile | sed 's/VDF=//g' | sed 's/\r//'`; do rm $CWD/Data/${f/%mod/vdf} ; clear ; done
+for f in `grep "Vdf=" $CWD/system/$inifile | sed 's/Vdf=//g' | sed 's/\r//'`; do rm $CWD/Data/${f/%mod/vdf} ; clear ; done
 ### OPTIONAL - backup the mod savefiles
 for saves in `echo $inifile | sed 's/.ini//g' | sed "s/[aA]/a/g;s/[bB]/b/g;s/[cC]/c/g;s/[dD]/d/g;s/[eE]/e/g;s/[fF]/f/g;s/[gG]/g/g;s/[hH]/h/g;s/[iI]/i/g;s/j/[jJ]/g;s/[kK]/k/g;s/[lL]/l/g;s/[mM]/m/g;s/[nN]/n/g;s/[oO]/o/g;s/[pP]/p/g;s/[qQ]/q/g;s/[rR]/r/g;s/[sS]/s/g;s/[tT]/t/g;s/[uU]/u/g;s/[vV]/v/g;s/[wW]/w/g;s/[xX]/x/g;s/[yY]/y/g;s/[zZ]/z/g"` ; do 7z a -t7z -m0=lzma -mx=9 -mfb=64 -md=32m $CWD/saves_$saves.7z $CWD/saves_$saves/ ; done ;
 # unpack the mod savefiles
-#for saves in `echo $inifile | sed 's/.ini//g' | sed "s/[aA]/a/g;s/[bB]/b/g;s/[cC]/c/g;s/[dD]/d/g;s/[eE]/e/g;s/[fF]/f/g;s/[gG]/g/g;s/[hH]/h/g;s/[iI]/i/g;s/j/[jJ]/g;s/[kK]/k/g;s/[lL]/l/g;s/[mM]/m/g;s/[nN]/n/g;s/[oO]/o/g;s/[pP]/p/g;s/[qQ]/q/g;s/[rR]/r/g;s/[sS]/s/g;s/[tT]/t/g;s/[uU]/u/g;s/[vV]/v/g;s/[wW]/w/g;s/[xX]/x/g;s/[yY]/y/g;s/[zZ]/z/g"` ; do 7z x $CWD/saves_$saves.7z ; done ;
+# for saves in `echo $inifile | sed 's/.ini//g' | sed "s/[aA]/a/g;s/[bB]/b/g;s/[cC]/c/g;s/[dD]/d/g;s/[eE]/e/g;s/[fF]/f/g;s/[gG]/g/g;s/[hH]/h/g;s/[iI]/i/g;s/j/[jJ]/g;s/[kK]/k/g;s/[lL]/l/g;s/[mM]/m/g;s/[nN]/n/g;s/[oO]/o/g;s/[pP]/p/g;s/[qQ]/q/g;s/[rR]/r/g;s/[sS]/s/g;s/[tT]/t/g;s/[uU]/u/g;s/[vV]/v/g;s/[wW]/w/g;s/[xX]/x/g;s/[yY]/y/g;s/[zZ]/z/g"` ; do 7z x $CWD/saves_$saves.7z ; done ;
 ###EOF###
